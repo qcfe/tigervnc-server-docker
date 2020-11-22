@@ -25,6 +25,8 @@ COPY --chown=${USER}:${USER} startup.sh $HOME/startup.sh
 COPY --chown=${USER}:${USER} fluxbox $HOME/.fluxbox
 COPY Xvnc-session /etc/X11/Xvnc-session
 
+RUN su -p $USER -c "cd && echo \"add $DISPLAY . deadbeef\" | xauth"
+
 CMD chown -R ${USER}:${USER} /tmp/.X11-unix && \
     rm -rfv /tmp/.X*-lock ;\
     su -p $USER -c "cd && bash ./startup.sh"
