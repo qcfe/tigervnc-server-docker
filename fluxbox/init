@@ -61,3 +61,15 @@ session.autoRaiseDelay: 250
 session.cacheLife:      5
 session.ignoreBorder:   false
 session.configVersion:  13
+session.tabPadding: 0
+session.styleOverlay: /dev/null
+session.menuFile: /dev/null
+session.slitlistFile: /dev/null
+session.appsFile: /dev/null
+session.tabsAttachArea: None
+session.screen0.tab.placement: TopLeft
+session.screen0.windowMenu: /dev/null
+session.screen0.tab.width: 64
+session.screen0.tabs.usePixmap: true
+session.screen0.tabs.maxOver: false
+session.screen0.tabs.intitlebar: true

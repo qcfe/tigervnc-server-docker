@@ -2,12 +2,12 @@ FROM ubuntu:20.04
 
 ARG USER=vncuser
 
-### Connection ports
+### ENV DEFAULTS
 ENV DISPLAY=:0 \
     USER=${USER} \
     DEBIAN_FRONTEND=noninteractive
 
-### Installing required softwares & cleanup
+### Install required softwares & cleanup
 RUN apt-get update && \
     apt-get install -y \
         fluxbox \
@@ -17,16 +17,16 @@ RUN apt-get update && \
 
 EXPOSE 5900
 
+### Prepare usermode
 RUN useradd -ms /bin/bash $USER
-
 ENV HOME=/home/$USER
 
-COPY --chown=${USER}:${USER} startup.sh $HOME/startup.sh
+# Copy fluxbox config & vnc session tweaks
 COPY --chown=${USER}:${USER} fluxbox $HOME/.fluxbox
 COPY Xvnc-session /etc/X11/Xvnc-session
 
-RUN su -p $USER -c "cd && echo \"add $DISPLAY . deadbeef\" | xauth"
-
-CMD chown -R ${USER}:${USER} /tmp/.X11-unix && \
-    rm -rfv /tmp/.X*-lock ;\
-    su -p $USER -c "cd && bash ./startup.sh"
+CMD rm -rfv /tmp/.X11-unix/* && \
+    su -p $USER -c "\
+        vncserver $DISPLAY -SecurityTypes None -noxstartup &&\
+        xhost +local: &&\
+        fluxbox"
