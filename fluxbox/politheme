@@ -7,7 +7,7 @@ background:                             aspect
 background.color:                       #003576
 background.colorTo:                     #003576
 
-background.pixmap:      ~/.fluxbox/crownexam.png
+background.pixmap:      ~/.fluxbox/wallpaper.png
 
 --------------------
 
