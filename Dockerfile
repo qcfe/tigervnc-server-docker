@@ -1,6 +1,7 @@
 FROM ubuntu:20.04
 
-ARG USER=vncuser
+ARG USER=crownlabs
+ARG UID=1010
 
 ### ENV DEFAULTS
 ENV DISPLAY=:0 \
@@ -18,15 +19,15 @@ RUN apt-get update && \
 EXPOSE 5900
 
 ### Prepare usermode
-RUN useradd -ms /bin/bash $USER
+RUN useradd -ms /bin/bash -u ${UID} ${USER}
 ENV HOME=/home/$USER
 
 # Copy fluxbox config & vnc session tweaks
 COPY --chown=${USER}:${USER} fluxbox $HOME/.fluxbox
 COPY Xvnc-session /etc/X11/Xvnc-session
 
-CMD rm -rfv /tmp/.X11-unix/* && \
-    su -p $USER -c "\
-        vncserver $DISPLAY -SecurityTypes None -noxstartup &&\
-        xhost +local: &&\
-        fluxbox"
+USER ${USER}
+
+CMD vncserver $DISPLAY -SecurityTypes None -noxstartup &&\
+    xhost +local: &&\
+    fluxbox
